@@ -1,0 +1,35 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
+from django.shortcuts import render, redirect
+from django.views import generic
+from django.views.generic import CreateView
+from django.http import Http404
+from django.contrib import messages
+
+from tools.models import Certificate
+from .forms import UploadForm
+
+from OpenSSL import crypto
+# Create your views here.
+
+def index(request):
+    return render(request, 'tools/index.html', {})
+
+def upload(request):
+    if request.method == 'POST':
+        form = UploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            instance = Certificate(file=request.FILES['file'])
+            if instance.file.name.endswith('.pfx'):
+                try:
+                    instance.save()
+                    messages.error(request, "Upload successful")
+                except:
+                    message.error(request, "Something broke...")
+                return render(request, 'tools/upload.html', {'form': form})
+            else:
+                messages.error(request, "File must be PFX")
+    else:
+        form = UploadForm()
+    return render(request, 'tools/upload.html', {'form': form})

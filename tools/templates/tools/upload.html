@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Upload Cert</h1>
+
+{% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+{% endif %}
+
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            {% if messages %}
+                {% for message in messages %}
+                    <p><strong>{{ message }}</strong><p>
+                {% endfor %}
+            {% endif %}
+                <div class="form-group">
+                    <label>{{ form.file.label_tag }}</label>
+                    <div class="input" >{{ form.file }}</div>
+                    <label>{{ form.password.label_tag }}</label>
+                    <div class="input" >{{ form.password }}</div>
+                </div>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </div>
+</form>
+
+{% endblock %}
