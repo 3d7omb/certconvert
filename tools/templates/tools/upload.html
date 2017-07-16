@@ -1,31 +1,34 @@
 {% extends 'base.html' %}
-
+{% load widget_tweaks %}
 {% block content %}
-
-<h1>Upload Cert</h1>
-
-{% if error_message %}
-    <p><strong>{{ error_message }}</strong></p>
-{% endif %}
-
-<form action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            {% if messages %}
-                {% for message in messages %}
-                    <p><strong>{{ message }}</strong><p>
-                {% endfor %}
-            {% endif %}
-                <div class="form-group">
-                    <label>{{ form.file.label_tag }}</label>
-                    <div class="input" >{{ form.file }}</div>
-                    <label>{{ form.password.label_tag }}</label>
-                    <div class="input" >{{ form.password }}</div>
-                </div>
-            <button type="submit" class="btn btn-success">Submit</button>
-        </div>
-    </div>
-</form>
+<div id="wrapper">
+    {% if error_message %}
+        <p><strong>{{ error_message }}</strong></p>
+    {% endif %}
+    <form class="form" action="" method="post" id="upload-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p>
+            <h1 id="header">CertConvert</h1>
+            <h3 id="upload-header">PFX to PEM converter</h3>
+        </p>
+        <hr class="colorgraph"><br>
+        {% if messages %}
+        {% for message in messages %}
+        <p>
+            <strong>{{ message }}</strong>
+        </p>
+        {% endfor %}
+        {% endif %}
+        <p class="file">
+            {% render_field form.file class+="form-control" %}
+        </p>
+        <p class="password" >
+            {% render_field form.password class+="form-control" placeholder="Password" %}
+        </p>
+        <p class="submit">
+            <input type="submit" value="submit" />
+        </p>
+    </form>
+</div>
 
 {% endblock %}
